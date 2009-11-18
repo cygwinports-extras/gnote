@@ -1,0 +1,6 @@
+category: Utils
+requires: libatkmm1.6_1 libboost1.40 libcairomm1.0_1 libgcc1 libgconf2_4 libglib2.0_0 libglibmm2.4_1 libgtk2.0_0 libgtkmm2.4_1 libgtkspell0 libintl8 libpanel-applet2_0 libpanelappletmm2.6_1 libpango1.0_0 libpangomm1.4_1 libpcrecpp0 libsigc2.0_0 libstdc++6 libuuid1 libX11_6 libxml2 libxslt
+sdesc: "GNOME desktop note-taking application"
+ldesc: "Gnote is a port of Tomboy to C++.
+It is the same note taking application, including most of the add-ins
+(more are to come). Synchronization support is being worked on."

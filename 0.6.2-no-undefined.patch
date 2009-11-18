@@ -1,0 +1,40 @@
+FIXME: when dbus-c++ is present, 'dbus' needs to precede '.' in SUBDIRS
+
+--- origsrc/gnote-0.6.2/src/Makefile.am	2009-08-11 17:00:52.000000000 -0500
++++ src/gnote-0.6.2/src/Makefile.am	2009-11-17 23:23:48.393662200 -0600
+@@ -1,6 +1,6 @@
+ 
+ 
+-SUBDIRS = addins
++SUBDIRS = . addins
+ 
+ EXTRA_DIST = gnote-applet.in
+ 
+@@ -47,7 +47,7 @@ stringtest_LDADD =  @PCRE_LIBS@ @LIBGLIB
+ 
+ filestest_SOURCES = test/filestest.cpp \
+ 	sharp/files.cpp
+-filestest_LDADD = @BOOST_FILESYSTEM_LIBS@
++filestest_LDADD = @BOOST_FILESYSTEM_LIBS@ @BOOST_SYSTEM_LIBS@
+ 
+ uritest_SOURCES = test/uritest.cpp \
+ 	sharp/string.cpp  sharp/uri.cpp debug.cpp
+@@ -158,4 +158,5 @@ libgnote_a_SOURCES = \
+ 	$(NULL)
+ 
+ gnote_LDADD = $(GNOTE_LIBS)
++gnote_LDFLAGS = -Wl,--export-all-symbols,--out-implib,libgnote.exe.a
+ 
+--- origsrc/gnote-0.6.2/src/addins/addins.mk.in	2009-07-17 21:00:43.000000000 -0500
++++ src/gnote-0.6.2/src/addins/addins.mk.in	2009-11-17 22:54:55.581040600 -0600
+@@ -7,6 +7,9 @@ AM_CPPFLAGS=@LIBGTKMM_CFLAGS@ @LIBGLIBMM
+ 	@GCONF_CFLAGS@ @LIBXML_CFLAGS@ \
+ 	-DDATADIR=\"$(datadir)\" -DLIBDIR=\"$(libdir)\"
+ 
+-AM_LDFLAGS = -avoid-version -module -export-dynamic
++AM_LDFLAGS = -avoid-version -module -export-dynamic -no-undefined \
++	-Wl,$(top_builddir)/src/libgnote.exe.a \
++	$(BOOST_FILESYSTEM_LIBS) $(BOOST_SYSTEM_LIBS) \
++	$(LIBGTKMM_LIBS) $(GCONF_LIBS) $(LIBXML_LIBS) $(PCRE_LIBS)
+ 
+ ADDINSDIR = @libdir@/@PACKAGE_NAME@/addins/@VERSION@

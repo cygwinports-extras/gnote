@@ -1,0 +1,8 @@
+inherit gnome2
+
+HOMEPAGE="http://live.gnome.org/Gnote"
+
+PATCH_URI="0.6.2-no-undefined.patch
+           0.6.2-silent-rules.patch"
+
+CYGCONF_ARGS="--libexecdir=/usr/lib/panel-2.0"

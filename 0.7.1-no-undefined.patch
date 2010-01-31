@@ -1,0 +1,59 @@
+--- origsrc/gnote-0.7.1/src/Makefile.am	2010-01-31 03:56:39.842518000 -0600
++++ src/gnote-0.7.1/src/Makefile.am	2010-01-31 03:55:19.246908200 -0600
+@@ -1,6 +1,6 @@
+ 
+ 
+-SUBDIRS = addins
++SUBDIRS = dbus . addins
+ 
+ EXTRA_DIST = gnote-applet.in
+ 
+@@ -47,7 +47,7 @@ stringtest_LDADD =  @PCRE_LIBS@ @LIBGLIB
+ 
+ filestest_SOURCES = test/filestest.cpp \
+ 	sharp/files.cpp
+-filestest_LDADD = @BOOST_FILESYSTEM_LIBS@
++filestest_LDADD = @BOOST_FILESYSTEM_LIBS@ @BOOST_SYSTEM_LIBS@
+ 
+ uritest_SOURCES = test/uritest.cpp \
+ 	sharp/string.cpp  sharp/uri.cpp debug.cpp
+@@ -78,7 +78,6 @@ endif
+ 
+ 
+ if HAVE_DBUS
+-SUBDIRS += dbus
+ DBUS_SOURCES=remotecontrolproxy.hpp remotecontrolproxy.cpp \
+ 	dbus/remotecontrol.hpp dbus/remotecontrol.cpp \
+ 	dbus/remotecontrolclient.hpp dbus/remotecontrolclient.cpp \
+@@ -159,4 +158,5 @@ libgnote_a_SOURCES = \
+ 	$(NULL)
+ 
+ gnote_LDADD = $(GNOTE_LIBS)
++gnote_LDFLAGS = -Wl,--export-all-symbols,--out-implib,libgnote.exe.a
+ 
+--- origsrc/gnote-0.7.1/src/addins/addins.mk.in	2010-01-31 03:56:39.847518300 -0600
++++ src/gnote-0.7.1/src/addins/addins.mk.in	2010-01-30 22:11:38.000000000 -0600
+@@ -7,6 +7,9 @@ AM_CPPFLAGS=@LIBGTKMM_CFLAGS@ @LIBGLIBMM
+ 	@GCONF_CFLAGS@ @LIBXML_CFLAGS@ \
+ 	-DDATADIR=\"$(datadir)\" -DLIBDIR=\"$(libdir)\"
+ 
+-AM_LDFLAGS = -avoid-version -module -export-dynamic
++AM_LDFLAGS = -avoid-version -module -export-dynamic -no-undefined \
++	-Wl,$(top_builddir)/src/libgnote.exe.a \
++	$(BOOST_FILESYSTEM_LIBS) $(BOOST_SYSTEM_LIBS) \
++	$(LIBGTKMM_LIBS) $(GCONF_LIBS) $(LIBXML_LIBS) $(PCRE_LIBS)
+ 
+ ADDINSDIR = @libdir@/@PACKAGE_NAME@/addins/@VERSION@
+--- origsrc/gnote-0.7.1/src/dbus/Makefile.am	2009-11-25 07:12:33.000000000 -0600
++++ src/gnote-0.7.1/src/dbus/Makefile.am	2010-01-31 03:55:44.207335900 -0600
+@@ -6,8 +6,10 @@ remotecontrol-glue.hpp: gnote-introspect
+ remotecontrol-client-glue.hpp: gnote-introspect.xml
+ 	dbusxx-xml2cpp $^ --proxy=$@
+ 
++if HAVE_DBUS
+ BUILT_SOURCES = remotecontrol-glue.hpp remotecontrol-client-glue.hpp
+ CLEANFILES = $(BUILT_SOURCES)
++endif
+ 
+ dist-hook:
+ 	cd $(distdir); rm -f $(BUILT_SOURCES)

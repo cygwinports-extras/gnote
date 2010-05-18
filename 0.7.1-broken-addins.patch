@@ -1,4 +1,25 @@
-Segfault on launch in noteoftheday::NoteOfTheDay::get_note_by_date
+Program received signal SIGSEGV, Segmentation fault.
+noteoftheday::NoteOfTheDay::get_note_by_date (manager=..., date=...)
+	at src/addins/noteoftheday/noteoftheday.cpp:130
+130       for (gnote::Note::List::const_iterator iter = notes.begin();
+(gdb) bt
+#0  noteoftheday::NoteOfTheDay::get_note_by_date (manager=..., date=...)
+	at src/addins/noteoftheday/noteoftheday.cpp:130
+#1  0x1ab0243b in noteoftheday::NoteOfTheDayApplicationAddin::check_new_day (this=0x10d16f8)
+	at src/addins/noteoftheday/noteofthedayapplicationaddin.cpp:84
+#2  0x656ebe3d in cygglibmm-2!_ZN4sigc8internal10slot_call0INS_19bind_return_functorIbNS_4slotIvNS_3nilES4_S4_S4_S4_S4_S4_EEEEbE7call_itEPNS0_8slot_repE ()
+	from /usr/bin/cygglibmm-2.4-1.dll
+#3  0x656df3c2 in cygglibmm-2!_ZN4Glib10IdleSource8dispatchEPN4sigc9slot_baseE()
+	from /usr/bin/cygglibmm-2.4-1.dll
+#4  0x74f46fe9 in g_main_context_dispatch () from /usr/bin/cygglib-2.0-0.dll
+#5  0x74f49fb0 in g_main_context_prepare () from /usr/bin/cygglib-2.0-0.dll
+#6  0x74f4a397 in g_main_loop_run () from /usr/bin/cygglib-2.0-0.dll
+#7  0x6e8b9d0d in gtk_main () from /usr/bin/cyggtk-x11-2.0-0.dll
+#8  0x006c9ab3 in cyggtkmm-2!_ZN3Gtk4Main3runEv ()
+	from /usr/bin/cyggtkmm-2.4-1.dll
+#9  0x00403cf4 in gnote::Gnote::start_tray_icon() ()
+#10 0x00404658 in gnote::Gnote::main(int, char**) ()
+#11 0x004011c9 in main ()
 
 --- origsrc/gnote-0.7.1/src/addins/Makefile.am	2009-12-28 05:46:01.000000000 -0600
 +++ src/gnote-0.7.1/src/addins/Makefile.am	2010-01-31 13:17:45.617090200 -0600

@@ -3,8 +3,8 @@ inherit gnome2
 HOMEPAGE="http://live.gnome.org/Gnote"
 
 PATCH_URI="
-	0.7.3-no-undefined.patch
+	0.8.0-no-undefined.patch
 	0.6.2-silent-rules.patch
 "
 
-CYGCONF_ARGS="--disable-applet"
+CYGCONF_ARGS="--libexecdir=/usr/lib/gnome-panel/4.0"

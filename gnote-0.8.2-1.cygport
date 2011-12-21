@@ -7,4 +7,4 @@ PATCH_URI="
 	0.6.2-silent-rules.patch
 "
 
-CYGCONF_ARGS="--libexecdir=/usr/lib/gnome-panel/4.0"
+CYGCONF_ARGS="--libexecdir=/usr/lib/gnome-panel/4.0 --enable-applet"

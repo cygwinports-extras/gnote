@@ -8,3 +8,5 @@ PATCH_URI="
 "
 
 CYGCONF_ARGS="--libexecdir=/usr/lib/gnome-panel/4.0 --enable-applet"
+
+KEEP_LA_FILES="none"

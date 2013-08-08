@@ -1,0 +1,39 @@
+--- origsrc/gnote-3.8.1/src/Makefile.am	2013-05-12 06:33:40.000000000 -0500
++++ src/gnote-3.8.1/src/Makefile.am	2013-08-08 00:14:26.141029900 -0500
+@@ -1,6 +1,6 @@
+ 
+ 
+-SUBDIRS = addins
++SUBDIRS = dbus . addins
+ 
+ INCLUDES = -I$(top_srcdir)
+ AM_CPPFLAGS=@LIBGTKMM_CFLAGS@ @LIBGLIBMM_CFLAGS@ \
+@@ -55,7 +55,6 @@ notetest_SOURCES = test/notetest.cpp
+ notetest_LDADD =  $(GNOTE_LIBS) -lX11
+ 
+ 
+-SUBDIRS += dbus
+ DBUS_SOURCES=remotecontrolproxy.hpp remotecontrolproxy.cpp \
+ 	dbus/remotecontrol.hpp dbus/remotecontrol.cpp \
+ 	dbus/remotecontrolclient.hpp dbus/remotecontrolclient.cpp \
+@@ -64,7 +63,7 @@ DBUS_SOURCES=remotecontrolproxy.hpp remo
+ 	dbus/remotecontrol-glue.cpp \
+ 	$(NULL)
+ 
+-libgnote_la_LDFLAGS = -release @LIBGNOTE_RELEASE@ -version-info @LIBGNOTE_VERSION_INFO@
++libgnote_la_LDFLAGS = -release @LIBGNOTE_RELEASE@ -version-info @LIBGNOTE_VERSION_INFO@ -no-undefined
+ libgnote_la_LIBADD = $(LIBGNOTE_LIBS)
+ libgnote_la_SOURCES = \
+ 	base/singleton.hpp \
+--- origsrc/gnote-3.8.1/src/addins/addins.mk.in	2012-09-26 15:25:11.000000000 -0500
++++ src/gnote-3.8.1/src/addins/addins.mk.in	2013-08-08 00:15:24.941393100 -0500
+@@ -8,6 +8,8 @@ AM_CPPFLAGS=@LIBGTKMM_CFLAGS@ @LIBGLIBMM
+ 	@LIBSECRET_CFLAGS@ \
+ 	-DDATADIR=\"$(datadir)\" -DLIBDIR=\"$(libdir)\"
+ 
+-AM_LDFLAGS = -avoid-version -module -export-dynamic
++AM_LDFLAGS = -avoid-version -module -export-dynamic -no-undefined \
++	$(top_builddir)/src/libgnote.la \
++	$(LIBGTKMM_LIBS) $(LIBSECRET_LIBS) $(LIBXML_LIBS)
+ 
+ ADDINSDIR = @libdir@/@PACKAGE_NAME@/addins/@VERSION@

@@ -1,7 +1,7 @@
 inherit gnome2
 
 NAME="gnote"
-VERSION=3.14.2
+VERSION=3.18.0
 RELEASE=1
 CATEGORY="GNOME"
 SUMMARY="GNOME desktop note-taking application"
@@ -12,16 +12,11 @@ HOMEPAGE="http://live.gnome.org/Gnote"
 
 PATCH_URI="
 	3.8.1-no-undefined.patch
-	3.10.3-compile.patch
+	3.18.0-c++11.patch
 "
 
-# cxx11: no std::stoi for cygwin
 CYGCONF_ARGS="
 	--with-x11-support
-	ax_cv_cxx_compile_cxx11__std_gnupp11=no
-	ax_cv_cxx_compile_cxx11__std_gnupp0x=no
-	ax_cv_cxx_compile_cxx11__std_cpp11=no
-	ax_cv_cxx_compile_cxx11__std_cpp0x=no
 "
 
 KEEP_LA_FILES="none"

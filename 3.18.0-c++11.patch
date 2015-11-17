@@ -1,0 +1,30 @@
+--- origsrc/gnote-3.18.0/src/base/macros.hpp	2013-10-27 07:20:59.000000000 -0500
++++ src/gnote-3.18.0/src/base/macros.hpp	2015-11-17 10:35:24.160194000 -0600
+@@ -29,7 +29,7 @@
+ #ifndef __BASE_MACROS_
+ #define __BASE_MACROS_
+ 
+-#if __cplusplus < 201103L
++#if (__cplusplus < 201103L) || defined(__CYGWIN__)
+   #include <tr1/memory>
+   #include <boost/foreach.hpp>
+   #include <boost/lexical_cast.hpp>
+@@ -46,7 +46,7 @@
+ #endif
+ 
+ // define 'final' and 'override' for pre-C++11 compilers
+-#if __cplusplus < 201103L
++#if (__cplusplus < 201103L) || defined(__CYGWIN__)
+   #define final
+   #define override
+   #define FOREACH(var, container) BOOST_FOREACH(var, container)
+--- origsrc/gnote-3.18.0/src/gnome_keyring/ring.cpp	2014-01-10 17:12:14.000000000 -0600
++++ src/gnote-3.18.0/src/gnome_keyring/ring.cpp	2015-11-17 10:33:00.189912100 -0600
+@@ -20,6 +20,7 @@
+ 
+ 
+ #include <cstring>
++#include <cstdlib>
+ 
+ #include "keyringexception.hpp"
+ #include "ring.hpp"
